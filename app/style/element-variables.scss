@@ -1,0 +1,17 @@
+/**
+* 覆盖主题色
+*/
+/*主题颜色变量*/
+$--color-primary: red;
+
+/*icon字体路径变量*/
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+/* 引入全部默认样式 会引入没用到的组件样式 */
+// @import '~element-ui/packages/theme-chalk/src/index';
+
+/* 按需引入用到的组件的scss文件和基础scss文件 */
+@import '~element-ui/packages/theme-chalk/src/base.scss';
+@import '~element-ui/packages/theme-chalk/src/rate.scss';
+@import '~element-ui/packages/theme-chalk/src/button.scss';
+@import '~element-ui/packages/theme-chalk/src/row.scss';
