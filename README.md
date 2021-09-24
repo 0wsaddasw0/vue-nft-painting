@@ -1,3 +1,5 @@
+#### English
+
 ### Introduction
 
 The nft-painting is a tool to help painters create NFT works
@@ -12,6 +14,9 @@ npm run build
 ### Website address
 
 www.uonus.net
+
+
+#### 中文
 
 ### 介绍
 
