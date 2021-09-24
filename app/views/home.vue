@@ -4,48 +4,37 @@
             <div class="header">
                 <div class="titleImage"></div>
                 <i title="交流经验" @click="QRCodeDialogVisible = true" class="el-icon-coffee-cup" style="cursor: pointer; margin: 20px; font-size: 30px; color: 194d33">
-            </i>
+                </i>
             </div>
             <div class="content">
-                <div style="width: 550px; display: flex; justify-content: center">
-                    <canvas style="border: 1px solid #dcdfe6" width="480" height="480" id="canvasPrew"></canvas>
-                </div>
-                <div  class = "tools" >
-                    <canvas style="border: 1px solid #dcdfe6" width="480" height="480" id="myCanvas"></canvas>
-                </div>
+                <canvas style="border: 1px solid #dcdfe6;margin:10px" width="480" height="480" id="canvasPrew"></canvas>
+                <canvas style="border: 1px solid #dcdfe6;margin:10px" width="480" height="480" id="myCanvas"></canvas>
                 <div>
-                    <div style="margin: 20px; margin-left: 0px">
-                        <el-radio-group v-model="tool">
-                            <el-radio :label="1">画笔</el-radio>
-                            <el-radio :label="0">橡皮</el-radio>
-                            <el-radio :label="2">吸管</el-radio>
-                        </el-radio-group>
-                    </div>
-                    <div style="margin: 20px; margin-left: 0px">
-                        <sketch-picker v-model="colors" />
-                    </div>
+                    <el-radio-group v-model="tool">
+                        <el-radio :label="1">画笔</el-radio>
+                        <el-radio :label="0">橡皮</el-radio>
+                        <el-radio :label="2">吸管</el-radio>
+                    </el-radio-group>
+                    <sketch-picker style="margin-top:10px" v-model="colors" />
                 </div>
-                <div 
-                class = "levelBox">
+                <div class="levelBox">
                     <el-collapse style="width: 100%" @change="chooseLevel" accordion>
                         <el-collapse-item v-for="index of 10" v-bind:key="index" :title="imageNames[index - 1]['levelName']" :name="index">
-                            <div v-for="(item, key) in submitData[index - 1]" v-bind:key="key"
-                            class = "imageBox" >
+                            <div v-for="(item, key) in submitData[index - 1]" v-bind:key="key" class="imageBox">
                                 <div @click="chooseImage([index - 1, key])">
                                     <el-radio v-model="imageChoosedRadio[index - 1]" :label="key">{{ imageNames[index - 1]["imageName"][key] }}</el-radio>
                                 </div>
                                 <i v-if="index != 1" class="el-icon-top" title="上移一层" style="cursor: pointer" @click="moveUp([index - 1, key])">
-                    </i>
+                        </i>
                                 <i v-if="index != 10" class="el-icon-bottom" title="下移一层" style="cursor: pointer" @click="moveDown([index - 1, key])">
-                    </i>
+                        </i>
                                 <i class="el-icon-edit" title="修改名称" style="cursor: pointer" @click="changeName([index - 1, key])">
-                    </i>
+                        </i>
                                 <i class="el-icon-delete" title="删除" style="cursor: pointer" @click="deleteImage([index - 1, key])">
-                    </i>
+                        </i>
                             </div>
                             <div style=" cursor: pointer;padding-top:10px; display: flex;justify-content:space-between ">
                                 <i class="el-icon-circle-plus-outline" @click="addImage(index)">添加新图</i>
-    
                                 <i class="el-icon-edit" title="修改层名" @click="changeLevelName(index)">修改层名</i>
                             </div>
                         </el-collapse-item>
@@ -70,11 +59,11 @@
                 <div v-if="isComplete" style="margin:10px;margin-top:30px"> 下载URL:<a :href="downLoadURL">{{downLoadURL}}</a> </div>
             </div>
             <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitToPost"
-              >确 定</el-button
-            >
-          </span>
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="submitToPost"
+                  >确 定</el-button
+                >
+              </span>
         </el-dialog>
         <el-dialog title="提示" :visible.sync="QRCodeDialogVisible" width="30%">
             <div style="display: flex; justify-content: center; align-items: center">
@@ -88,11 +77,11 @@
             </div>
     
             <span slot="footer" class="dialog-footer">
-            <el-button @click="QRCodeDialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="QRCodeDialogVisible = false"
-              >确 定</el-button
-            >
-          </span>
+                <el-button @click="QRCodeDialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="QRCodeDialogVisible = false"
+                  >确 定</el-button
+                >
+              </span>
         </el-dialog>
     </div>
 </template>
@@ -107,22 +96,22 @@ export default {
     },
     data: function() {
         return {
-            ws:"wss://uonus_images_download.coltstail.net/ws",
-            isShowSlider: false,//是否显示生成图片的进度条 Whether to display the progress bar of the generated picture
-            downLoadURL: "",//下载图片压缩包的URL Download the URL of the image compression package
-            isComplete: false,//是否完成图片生成 Whether to complete the image generation
-            completePercent: 0,//生成图片完成百分比 Percentage of complete picture generation
-            imageComposeValue: 0,//需要生成的图片数目 The number of pictures that need to be generated
-            imageComposeMaxValue: 0,//需要生成的最多的图片数目 The maximum number of pictures that need to be generated
-            dialogVisible: false,//合成图像对话框  Composite image dialog
-            QRCodeDialogVisible: false,//二维码对话框  QR code dialog
-            canvas: "",//画板实例 Instance of artboards
-            preCanvas: "",//画板的预览 Image preview
-            ctx: null,//画板Context   Artboards context  
-            preCtx: "",//画板预览Context      Image preview context 
-            imageChoosed: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],//已选中图片的数据  Data of the selected picture
-            imageChoosedRadio: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],//已选中图片的radio  The radio of the selected picture
-            imageNames: {//各个图片的名称  The name of each picture
+            ws: "wss://uonus_images_download.coltstail.net/ws",
+            isShowSlider: false, //是否显示生成图片的进度条 Whether to display the progress bar of the generated picture
+            downLoadURL: "", //下载图片压缩包的URL Download the URL of the image compression package
+            isComplete: false, //是否完成图片生成 Whether to complete the image generation
+            completePercent: 0, //生成图片完成百分比 Percentage of complete picture generation
+            imageComposeValue: 0, //需要生成的图片数目 The number of pictures that need to be generated
+            imageComposeMaxValue: 0, //需要生成的最多的图片数目 The maximum number of pictures that need to be generated
+            dialogVisible: false, //合成图像对话框  Composite image dialog
+            QRCodeDialogVisible: false, //二维码对话框  QR code dialog
+            canvas: "", //画板实例 Instance of artboards
+            preCanvas: "", //画板的预览 Image preview
+            ctx: null, //画板Context   Artboards context  
+            preCtx: "", //画板预览Context      Image preview context 
+            imageChoosed: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1], //已选中图片的数据  Data of the selected picture
+            imageChoosedRadio: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1], //已选中图片的radio  The radio of the selected picture
+            imageNames: { //各个图片的名称  The name of each picture
                 0: {
                     levelName: "图层 1",
                     imageName: [],
@@ -164,11 +153,11 @@ export default {
                     imageName: [],
                 },
             },
-            editingImage: [0, 0],//正在绘画的图片的索引  Index of the picture being drawn
-            imageDataArray: [],//画板图片数据 Artboard image data
-            colorDataArray: [],//画板图片颜色数据 Color data of the drawing board picture
-            alphaDataArray: [],//画板图片透明度数据 Artboard image transparency data
-            colors: {//取色板颜色 Pick the color of the palette
+            editingImage: [0, 0], //正在绘画的图片的索引  Index of the picture being drawn
+            imageDataArray: [], //画板图片数据 Artboard image data
+            colorDataArray: [], //画板图片颜色数据 Color data of the drawing board picture
+            alphaDataArray: [], //画板图片透明度数据 Artboard image transparency data
+            colors: { //取色板颜色 Pick the color of the palette
                 color: "",
                 hex: "#194d33",
                 hsl: { h: 150, s: 0.5, l: 0.2, a: 1 },
@@ -176,14 +165,14 @@ export default {
                 rgba: { r: 25, g: 77, b: 51, a: 1 },
                 a: 1,
             },
-            penPosition: {//画笔位置 Pen position
+            penPosition: { //画笔位置 Pen position
                 x: 0,
                 y: 0,
             },
-            drawing: false,//绘画状态 Painting state
-            isEditing: false,//图片编辑状态 Picture editing status
-            tool: 1,//画图工具 Drawing tools
-            zeroData: [//零矩阵数据 Zero matrix data
+            drawing: false, //绘画状态 Painting state
+            isEditing: false, //图片编辑状态 Picture editing status
+            tool: 1, //画图工具 Drawing tools
+            zeroData: [ //零矩阵数据 Zero matrix data
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -210,8 +199,8 @@ export default {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             ],
             //空图数据字符串 Data string of empty graph
-            zeroString: "image:,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,color:,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,alpha:,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,",     
-            submitData: {//提交或保存的数据 Submitted or saved data
+            zeroString: "image:,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,color:,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,alpha:,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,",
+            submitData: { //提交或保存的数据 Submitted or saved data
                 0: [],
                 1: [],
                 2: [],
@@ -227,7 +216,7 @@ export default {
         };
     },
     computed: {
-        tipsContent: function() {//算出一共可合成多少张图像   Calculate how many images can be combined in total
+        tipsContent: function() { //算出一共可合成多少张图像   Calculate how many images can be combined in total
             let datasLength = [];
             for (let key in this.submitData) {
                 if (key == 'imageNames') {
@@ -237,9 +226,11 @@ export default {
                     datasLength.push(this.submitData[key].length);
                 }
             }
+
             function zeroToOne(num) {
                 return num == 0 ? 1 : num;
             }
+
             function calculate(array) {
                 let isZero = true;
                 let sum = 1;
@@ -262,12 +253,12 @@ export default {
         },
     },
     created: function() {
-        this.imageDataArray = JSON.parse(JSON.stringify(this.zeroData));//将空图数据赋值给画板  Assign empty image data to the drawing board
-        this.colorDataArray = JSON.parse(JSON.stringify(this.zeroData));//将空图数据赋值给画板  Assign empty image data to the drawing board
-        this.alphaDataArray = JSON.parse(JSON.stringify(this.zeroData));//将空图数据赋值给画板  Assign empty image data to the drawing board
+        this.imageDataArray = JSON.parse(JSON.stringify(this.zeroData)); //将空图数据赋值给画板  Assign empty image data to the drawing board
+        this.colorDataArray = JSON.parse(JSON.stringify(this.zeroData)); //将空图数据赋值给画板  Assign empty image data to the drawing board
+        this.alphaDataArray = JSON.parse(JSON.stringify(this.zeroData)); //将空图数据赋值给画板  Assign empty image data to the drawing board
         let that = this;
 
-        function keyUp(e) {//绘图工具快捷键  Drawing tool shortcuts
+        function keyUp(e) { //绘图工具快捷键  Drawing tool shortcuts
             var currKey = 0,
                 e = e || event;
             currKey = e.keyCode || e.which || e.charCode;
@@ -286,7 +277,7 @@ export default {
     },
 
     watch: {
-        penPosition: function(value) {//当画笔在画版上移动时  When the brush moves on the plate
+        penPosition: function(value) { //当画笔在画版上移动时  When the brush moves on the plate
             if (!this.isEditing) {
                 return;
             }
@@ -890,7 +881,7 @@ export default {
 
 <style scoped>
 .header {
-    height: 130px;
+    height: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -963,29 +954,29 @@ export default {
     cursor: pointer;
 }
 
-.tools{
-  height: 550pxpx;
-  width: 550px;
-  display: flex;
-  justify-content: center;
-  margin: 20px;
+.tools {
+    height: 550pxpx;
+    width: 550px;
+    display: flex;
+    justify-content: center;
+    margin: 20px;
 }
 
-.levelBox{
-  min-width: 100px;
-  width: 200px;
-  height: 600px;
-  margin-top: 120px;
-  margin-left: 20px;
-  overflow: auto;
+.levelBox {
+    min-width: 100px;
+    width: 200px;
+    height: 600px;
+    margin-top: 120px;
+    margin-left: 20px;
+    overflow: auto;
 }
 
-.imageBox{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-  margin-right: 10px;
+.imageBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 </style>
 
