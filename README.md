@@ -11,4 +11,6 @@ npm run build
 ```
 ### Website address
 
-https://www.uonus.net/#/
+NFT加密像素创作圣手，
+一次性生成上万稀缺像素图。
+来试试，www.uonus.net
