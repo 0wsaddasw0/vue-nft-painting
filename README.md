@@ -2,7 +2,7 @@
 
 The nft-painting is a tool to help painters create NFT works
 
-### run && build
+### Run && Build
 
 ```javascript
 npm i
