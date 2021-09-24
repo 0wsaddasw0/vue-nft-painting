@@ -107,6 +107,7 @@ export default {
     },
     data: function() {
         return {
+            ws:"wss://uonus_images_download.coltstail.net/ws",
             isShowSlider: false,//是否显示生成图片的进度条 Whether to display the progress bar of the generated picture
             downLoadURL: "",//下载图片压缩包的URL Download the URL of the image compression package
             isComplete: false,//是否完成图片生成 Whether to complete the image generation
@@ -286,7 +287,6 @@ export default {
 
     watch: {
         penPosition: function(value) {//当画笔在画版上移动时  When the brush moves on the plate
-        console.log(value)
             if (!this.isEditing) {
                 return;
             }
@@ -653,7 +653,6 @@ export default {
             let txtStr = "";
             this.submitData["imageNames"] = this.imageNames;
             txtStr += JSON.stringify(this.submitData);
-            console.log(txtStr);
             var date = new Date();
             this.download("新格式图片数据" + date.getTime() + ".txt", txtStr);
         },
@@ -844,9 +843,7 @@ export default {
             return imageData;
         },
         initWebSocket() {
-            const ws = "wss://uonus_images_download.coltstail.net/ws"
-            // const ws = "ws://192.168.31.164:8086/ws"
-
+            const ws = this.ws;
             this.websocket = new WebSocket(ws)
             this.websocket.onopen = this.onOpenWebsocket
             this.websocket.onerror = this.onErrorWebsocket
@@ -858,7 +855,6 @@ export default {
                 image: this.dataStringToJson(this.submitData),
                 imageName: this.removeSpace(this.imageNames),
             });
-            console.log(txtJson)
             // txtJson['image']
             this.websocket.send(txtJson)
         },
