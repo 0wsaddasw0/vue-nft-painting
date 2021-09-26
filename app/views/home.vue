@@ -494,8 +494,7 @@ export default {
                 let tempArray = JSON.parse(JSON.stringify(tempData[array[0]][array[1]]))
                 tempArray['color'] = changeColor(tempData[array[0]][array[1]]['color'], this.checkedCopyType[i])
                 tempData[array[0]].push(tempArray);
-                this.imageNames[array[0]]["imageName"].push(
-                    "c" + i + this.imageNames[array[0]]["imageName"][array[1]]
+                this.imageNames[array[0]]["imageName"].push(this.imageNames[array[0]]["imageName"][array[1]]
                 );
             }
             this.submitData = this.dataJsonToString(JSON.parse(JSON.stringify(tempData)))
@@ -994,6 +993,7 @@ export default {
                 image: this.dataStringToJson(this.submitData),
                 imageName: this.removeSpace(this.imageNames),
             });
+            console.log(txtJson);
             this.websocket.send(txtJson)
         },
         removeSpace() {
