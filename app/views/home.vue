@@ -4,7 +4,7 @@
             <div class="header">
                 <div class="titleImage"></div>
                 <i title="交流经验" @click="QRCodeDialogVisible = true" class="el-icon-coffee-cup" style="cursor: pointer; margin: 20px; font-size: 30px; color: 194d33">
-                    </i>
+                                        </i> 
             </div>
             <div class="content">
                 <canvas style="border: 1px solid #dcdfe6;margin:10px" width="480" height="480" id="canvasPrew"></canvas>
@@ -21,17 +21,19 @@
                     <el-collapse style="width: 100%" @change="chooseLevel" accordion>
                         <el-collapse-item v-for="index of 10" v-bind:key="index" :title="imageNames[index - 1]['levelName']" :name="index">
                             <div v-for="(item, key) in submitData[index - 1]" v-bind:key="key" class="imageBox">
-                                <div @click="chooseImage([index - 1, key])">
-                                    <el-radio v-model="imageChoosedRadio[index - 1]" :label="key">{{ imageNames[index - 1]["imageName"][key] }}</el-radio>
+                                <div class="overtext" @click="chooseImage([index - 1, key])">
+                                    <el-radio v-model="imageChoosedRadio[index - 1]" :label="key"> {{imageNames[index - 1]["imageName"][key] }}</el-radio>
                                 </div>
+                                <i class="el-icon-copy-document" title="复制图层" style="cursor: pointer" @click="copyImageShow([index - 1, key])">
+                                                </i>
                                 <i v-if="index != 1" class="el-icon-top" title="上移一层" style="cursor: pointer" @click="moveUp([index - 1, key])">
-                            </i>
+                                                </i>
                                 <i v-if="index != 10" class="el-icon-bottom" title="下移一层" style="cursor: pointer" @click="moveDown([index - 1, key])">
-                            </i>
+                                                </i>
                                 <i class="el-icon-edit" title="修改名称" style="cursor: pointer" @click="changeName([index - 1, key])">
-                            </i>
+                                                </i>
                                 <i class="el-icon-delete" title="删除" style="cursor: pointer" @click="deleteImage([index - 1, key])">
-                            </i>
+                                                </i>
                             </div>
                             <div style=" cursor: pointer;padding-top:10px; display: flex;justify-content:space-between ">
                                 <i class="el-icon-circle-plus-outline" @click="addImage(index)">添加新图</i>
@@ -60,11 +62,11 @@
                 <div v-if="isComplete" style="margin:10px;margin-top:30px"> 下载URL:<a :href="downLoadURL">{{downLoadURL}}</a> </div>
             </div>
             <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="submitToPost"
-                      >确 定</el-button
-                    >
-                  </span>
+                                        <el-button @click="dialogVisible = false">取 消</el-button>
+                                        <el-button type="primary" @click="submitToPost"
+                                          >确 定</el-button
+                                        >
+                                      </span>
         </el-dialog>
         <el-dialog title="提示" :visible.sync="QRCodeDialogVisible" width="30%">
             <div style="display: flex; justify-content: center; align-items: center">
@@ -78,22 +80,31 @@
             </div>
     
             <span slot="footer" class="dialog-footer">
-                    <el-button @click="QRCodeDialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="QRCodeDialogVisible = false"
-                      >确 定</el-button
-                    >
-                  </span>
+                                        <el-button @click="QRCodeDialogVisible = false">取 消</el-button>
+                                        <el-button type="primary" @click="QRCodeDialogVisible = false"
+                                          >确 定</el-button
+                                        >
+                                      </span>
         </el-dialog>
         <el-dialog title="提示" :visible.sync="showOpenSource" width="30%">
             <div>
                 本站代码前端已经开源，后端正在完善中。MIT协议，免费使用，同时也欢迎提交pr一起完善项目。(开源地址：<a href="https://github.com/0wsaddasw0/nft-painting">https://github.com/0wsaddasw0/nft-painting</a>）
             </div>
             <span slot="footer" class="dialog-footer">
-                    <el-button @click="showOpenSource = false">取 消</el-button>
-                    <el-button type="primary" @click="showOpenSource = false"
-                      >确 定</el-button
-                    >
-                  </span>
+                                        <el-button @click="showOpenSource = false">取 消</el-button>
+                                        <el-button type="primary" @click="showOpenSource = false"
+                                          >确 定</el-button
+                                        >
+                                      </span>
+        </el-dialog>
+        <el-dialog title="请选则复制图片的种类" :visible.sync="imageCopyVisible" width="30%">
+            <el-checkbox-group v-model="checkedCopyType">
+                <el-checkbox v-for="copyType in copyTypes" :label="copyType" :key="copyType">{{copyType}}</el-checkbox>
+            </el-checkbox-group>
+            <span slot="footer" class="dialog-footer">
+                        <el-button @click="imageCopyVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="copyImage">确 定</el-button>
+                      </span>
         </el-dialog>
     </div>
 </template>
@@ -104,13 +115,16 @@ export default {
     components: {
         "chrome-picker": Chrome,
         "sketch-picker": Sketch,
-        "swatches-picker": Swatches,
+        "swatches-picker": Swatches
     },
     data: function() {
         return {
             ws: "wss://uonus_images_download.coltstail.net/ws",
+            copyTypes: ['原图', '变色1', '变色2', '变色3'],
+            checkedCopyType: ['原图'],
             isShowSlider: false, //是否显示生成图片的进度条 Whether to display the progress bar of the generated picture
-            showOpenSource:false,//显示开源弹框
+            showOpenSource: false, //显示开源弹框
+            imageCopyVisible: false, //显示复制图片弹框
             downLoadURL: "", //下载图片压缩包的URL Download the URL of the image compression package
             isComplete: false, //是否完成图片生成 Whether to complete the image generation
             completePercent: 0, //生成图片完成百分比 Percentage of complete picture generation
@@ -167,6 +181,7 @@ export default {
                 },
             },
             editingImage: [0, 0], //正在绘画的图片的索引  Index of the picture being drawn
+            copyImageIndex: [0, 0], //正在复制的图片的索引  Index of the picture being drawn
             imageDataArray: [], //画板图片数据 Artboard image data
             colorDataArray: [], //画板图片颜色数据 Color data of the drawing board picture
             alphaDataArray: [], //画板图片透明度数据 Artboard image transparency data
@@ -288,7 +303,7 @@ export default {
         document.onkeyup = keyUp;
     },
 
-    watch: { 
+    watch: {
         penPosition: function(value) { //当画笔在画版上移动时  When the brush moves on the plate
             if (!this.isEditing) {
                 return;
@@ -440,6 +455,57 @@ export default {
             setTimeout(() => {
                 this.editImage(array);
             }, 0);
+        },
+        copyImage() {
+            function changeColor(colorArray, changetype) {
+                let newColorArray = [];
+                if (changetype == "原图") {
+                    return colorArray
+                }
+                for (let i = 0; i < colorArray.length; i++) {
+                    if (colorArray[i] == 0) {
+                        newColorArray[i] = '0';
+                        continue
+                    }
+                    let r = colorArray[i].slice(1, 3)
+                    let g = colorArray[i].slice(3, 5)
+                    let b = colorArray[i].slice(5, 7)
+                    if (changetype == "变色1") {
+                        newColorArray[i] = "#" + r + b + g;
+                    } else if (changetype == "变色2") {
+                        newColorArray[i] = "#" + g + r + b;
+                    } else if (changetype == "变色3") {
+                        newColorArray[i] = "#" + b + r + g;
+                    }
+                }
+
+                return newColorArray
+            }
+            let array = this.copyImageIndex
+            this.isEditing = false;
+            this.imageChoosed[array[0]] = -1;
+            this.imageChoosedRadio[array[0]] = -1;
+            this.editingImage = [0, 0];
+            this.imageDataArray = JSON.parse(JSON.stringify(this.zeroData));
+            this.colorDataArray = JSON.parse(JSON.stringify(this.zeroData));
+            this.alphaDataArray = JSON.parse(JSON.stringify(this.zeroData));
+            let tempData = JSON.parse(JSON.stringify(this.dataStringToJsonTemp(this.submitData)))
+            for (let i = 0; i < this.checkedCopyType.length; i++) {
+                let tempArray = JSON.parse(JSON.stringify(tempData[array[0]][array[1]]))
+                tempArray['color'] = changeColor(tempData[array[0]][array[1]]['color'], this.checkedCopyType[i])
+                tempData[array[0]].push(tempArray);
+                this.imageNames[array[0]]["imageName"].push(
+                    "c" + i + this.imageNames[array[0]]["imageName"][array[1]]
+                );
+            }
+            this.submitData = this.dataJsonToString(JSON.parse(JSON.stringify(tempData)))
+            this.prewCanvas();
+            this.reDrawing();
+            this.$message({
+                message: "图片已复制。",
+                type: "success",
+            });
+            this.imageCopyVisible = false;
         },
         moveDown(array) {
             this.$message({
@@ -657,7 +723,7 @@ export default {
             this.submitData["imageNames"] = this.imageNames;
             txtStr += JSON.stringify(this.submitData);
             var date = new Date();
-            this.download("新格式图片数据" + date.getTime() + ".txt", txtStr);
+            this.download("data" + date.getTime() + ".txt", txtStr);
         },
         saveAsPNG() {
             var canvasElement = this.preCanvas;
@@ -823,7 +889,7 @@ export default {
                             tempData["color"].pop()
                         }
                     }
-                    while (tempData["alpha"].length >576) {
+                    while (tempData["alpha"].length > 576) {
                         if (tempData["alpha"][0] === "") {
                             tempData["alpha"][0] = "0"
                         }
@@ -838,6 +904,63 @@ export default {
                         resultData[nameIndex] = [];
                     }
                     resultData[nameIndex].push(tempData);
+                }
+            }
+            return resultData;
+        },
+        dataStringToJsonTemp(dataString) {
+            let imageData = dataString;
+            let resultData = {};
+            for (let i in imageData) {
+                if (i == 'imageNames') {
+                    continue;
+                }
+                for (let j in imageData[i]) {
+                    let tempData = {
+                        image: "",
+                        color: "",
+                        alpha: "",
+                    };
+                    if (imageData[i][j] == "" || !imageData[i][j]) {
+                        continue;
+                    }
+                    let choosedArr = imageData[i][j].split(/image:|color:|alpha:/);
+                    tempData["image"] = choosedArr[1].split(",");
+                    tempData["color"] = choosedArr[2].split(",");
+                    tempData["alpha"] = choosedArr[3].split(",");
+
+                    while (tempData["image"].length > 576) {
+                        if (tempData["image"][0] === "") {
+                            tempData["image"][0] = "0"
+                        }
+                        if (tempData["image"].length > 576) {
+                            tempData["image"].pop()
+                        }
+                    }
+                    while (tempData["color"].length > 576) {
+                        if (tempData["color"][0] === "") {
+                            tempData["color"][0] = "0"
+                        }
+                        if (tempData["color"].length > 576) {
+                            tempData["color"].pop()
+                        }
+                    }
+                    while (tempData["alpha"].length > 576) {
+                        if (tempData["alpha"][0] === "") {
+                            tempData["alpha"][0] = "0"
+                        }
+                        if (tempData["alpha"].length > 576) {
+                            tempData["alpha"].pop()
+                        }
+                    }
+                    if (!tempData) {}
+                    if (!resultData[i]) {
+                        resultData[i] = [];
+                    }
+                    resultData[i].push(tempData);
+                }
+                if (!resultData[i]) {
+                    resultData[i] = [];
                 }
             }
             return resultData;
@@ -898,6 +1021,10 @@ export default {
                     this.completePercent = JSON.parse(message.data)['current'] / JSON.parse(message.data)['count'] * 100
                 }
             }
+        },
+        copyImageShow(array) {
+            this.copyImageIndex = array
+            this.imageCopyVisible = true;
         },
         openSourceCode() {
             this.showOpenSource = true;
@@ -1004,6 +1131,13 @@ export default {
     align-items: center;
     margin-top: 10px;
     margin-right: 10px;
+}
+
+.overtext {
+    width: 70px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 </style>
 
