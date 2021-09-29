@@ -15,6 +15,9 @@ npm run build
 
 www.uonus.net
 
+### Video tutorial
+
+https://www.bilibili.com/video/BV1gv411G7FG
 
 ## 中文
 
@@ -33,3 +36,7 @@ npm run build
 ### 工具网站地址
 
 www.uonus.net
+
+### 视频教程
+
+https://www.bilibili.com/video/BV1gv411G7FG
