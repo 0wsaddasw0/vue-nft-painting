@@ -4,7 +4,7 @@
       <div style="height: 6%"></div>
       <div>
         <div class="title">现在能做什么?</div>
-        <div class="textContent">
+        <div  class="textContent">
           目前这个项目叫NFT画师助手，主打的功能是帮助数字艺术家在短时间内创作海量作品。
         </div>
         <div class="textContent">
@@ -28,6 +28,7 @@
         <div class="textContent">
           所以，我们率先拥抱开源，开放代码欢迎使用、修改、甚至二次开发。同时，也欢迎更多的想做开源的朋友一起来做，群力以赴，共同叩开元宇宙的大门。
         </div>
+        
         <el-divider></el-divider>
       </div>
       <div>
