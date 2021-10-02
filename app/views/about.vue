@@ -25,10 +25,10 @@
         <div class="textContent">
           因为我们相信，未来的元宇宙不会属于某一个人或者某一家公司，而是会由无数社区的艺术家、工程师、爱好者共建共享共有。
         </div>
-        <div class="textContent">
+        <div  class="textContent">
           所以，我们率先拥抱开源，开放代码欢迎使用、修改、甚至二次开发。同时，也欢迎更多的想做开源的朋友一起来做，群力以赴，共同叩开元宇宙的大门。
         </div>
-        
+
         <el-divider></el-divider>
       </div>
       <div>
