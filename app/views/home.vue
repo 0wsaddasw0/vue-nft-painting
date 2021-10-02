@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="body">
-            <div class="header">
+            <!-- <div class="header">
                 <div class="titleImage"></div>
                 <i title="交流经验" @click="QRCodeDialogVisible = true" class="el-icon-coffee-cup" style="cursor: pointer; margin: 20px; font-size: 30px; color: 194d33">
                                         </i> 
-            </div>
+            </div> -->
             <div class="content">
                 <canvas style="border: 1px solid #dcdfe6;margin:10px" width="480" height="480" id="canvasPrew"></canvas>
                 <canvas style="border: 1px solid #dcdfe6;margin:10px" width="480" height="480" id="myCanvas"></canvas>
@@ -43,11 +43,12 @@
                     </el-collapse>
                 </div>
             </div>
-            <div class="buttons" style="margin-top: 30px">
+            <div class="buttons" >
                 <el-button @click="toCompose" plain>合成图片</el-button>
                 <el-button @click="saveAsTxt" saveAsTxt plain>本地暂存</el-button>
                 <el-button saveAsTxt @click="readTxt" plain><input type="file" @change="loadTextFromFile" id="txt" class="fileInputHide" />本地读取</el-button>
-                <el-button @click="openSourceCode" plain>开源代码</el-button>
+                <!-- <el-button @click="openSourceCode" plain>开源代码</el-button> -->
+                <el-button  plain><a href="https://www.bilibili.com/video/BV1gv411G7FG">查看教程</a></el-button>
             </div>
         </div>
         <div class="footer"></div>
@@ -101,6 +102,9 @@
             <el-checkbox-group v-model="checkedCopyType">
                 <el-checkbox v-for="copyType in copyTypes" :label="copyType" :key="copyType">{{copyType}}</el-checkbox>
             </el-checkbox-group>
+            <div style="margin-top:14px">
+               注意：复制出的图片为同名图片，参与排列组合的方式为轮替排列。如果想按普通方式组合，可以手动修改为不同名称。
+            </div>
             <span slot="footer" class="dialog-footer">
                         <el-button @click="imageCopyVisible = false">取 消</el-button>
                         <el-button type="primary" @click="copyImage">确 定</el-button>
@@ -245,12 +249,14 @@ export default {
     computed: {
         tipsContent: function() { //算出一共可合成多少张图像   Calculate how many images can be combined in total
             let datasLength = [];
+            let tempArray = [];
             for (let key in this.submitData) {
                 if (key == 'imageNames') {
                     continue
                 }
                 if (this.submitData[key].length != 0) {
-                    datasLength.push(this.submitData[key].length);
+                    tempArray = JSON.parse(JSON.stringify(Array.from(new Set(this.imageNames[key]['imageName']))));
+                    datasLength.push(tempArray.length);
                 }
             }
 
@@ -616,8 +622,8 @@ export default {
                 if (!this.isEditing) {
                     return;
                 }
+                document.getElementById("box").style.opacity = 1;  
                 var cRect = this.canvas.getBoundingClientRect();
-
                 var canvasX = Math.round(e.clientX - cRect.left);
                 var canvasY = Math.round(e.clientY - cRect.top);
                 if (canvasX > 0 && canvasX < 480 && canvasY > 0 && canvasY < 480) {
@@ -625,6 +631,7 @@ export default {
                     this.mouseToFlow(e);
                 }
             });
+
             this.canvas.addEventListener("mousedown", (e) => {
                 if (!this.isEditing) {
                     this.$message({
@@ -902,6 +909,7 @@ export default {
                     if (!resultData[nameIndex]) {
                         resultData[nameIndex] = [];
                     }
+                    debugger
                     resultData[nameIndex].push(tempData);
                 }
             }
@@ -1048,7 +1056,7 @@ export default {
 }
 
 .content {
-    height: 550px;
+    height: 620px;
     width: 100%;
     display: flex;
     justify-content: center;
