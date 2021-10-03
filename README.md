@@ -1,6 +1,6 @@
 ![RUNOOB 图标](https://www.uonus.net/logo.png)
 
-###NFT画师助手前端代码，喜欢的话给个Star
+NFT画师助手（前端），喜欢的话给个Star
 
 ## English
 
