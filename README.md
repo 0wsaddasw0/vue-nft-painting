@@ -2,27 +2,6 @@
 
 NFT画师助手（前端），喜欢的话给个Star
 
-## English
-
-### Introduction
-
-The nft-painting is a tool to help painters create NFT works
-
-### Run && Build
-
-```javascript
-npm i
-npm run dev
-npm run build
-```
-### Website address
-
-www.uonus.net
-
-### Video tutorial
-
-https://www.bilibili.com/video/BV1gv411G7FG
-
 ## 中文
 
 ### 介绍
@@ -44,3 +23,26 @@ www.uonus.net
 ### 视频教程
 
 https://www.bilibili.com/video/BV1gv411G7FG
+
+## English
+
+### Introduction
+
+The nft-painting is a tool to help painters create NFT works
+
+### Run && Build
+
+```javascript
+npm i
+npm run dev
+npm run build
+```
+### Website address
+
+www.uonus.net
+
+### Video tutorial
+
+https://www.bilibili.com/video/BV1gv411G7FG
+
+
