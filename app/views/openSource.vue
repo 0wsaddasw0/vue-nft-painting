@@ -1,7 +1,6 @@
 <template>
 
   <div class="content">
-    
   <div>
     <div style="height:10%"></div>
     <el-descriptions class="sourceList" title="nft-painting" >
