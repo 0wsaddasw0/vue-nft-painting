@@ -4,7 +4,8 @@ import VueRouter from 'vue-router'
 import home from '@view/home.vue'
 import openSource from '@view/openSource.vue'
 import about from '@view/about.vue'
-
+import art from '@view/art.vue'
+import link from '@view/link.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,6 +23,16 @@ const routes = [
     path: '/about',
     name: 'about',
     component: about
+  },
+  {
+    path: '/art',
+    name: 'art',
+    component: art
+  },
+  {
+    path: '/link',
+    name: 'link',
+    component: link
   }
 ]
 

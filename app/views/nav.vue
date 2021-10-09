@@ -12,8 +12,14 @@
         NFT画师助手</el-menu-item
       >
       <el-menu-item style="font-size: 32px" index="/">画板</el-menu-item>
+      <!-- <el-menu-item style="font-size: 32px" index="/art"
+        >艺展</el-menu-item
+      > -->
       <el-menu-item style="font-size: 32px" index="/opensource"
         >开源</el-menu-item
+      >
+      <el-menu-item style="font-size: 32px" index="/link"
+        >链接</el-menu-item
       >
       <el-menu-item style="font-size: 32px" index="/about">关于</el-menu-item>
       <el-menu-item style="color: black"

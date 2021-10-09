@@ -909,7 +909,6 @@ export default {
                     if (!resultData[nameIndex]) {
                         resultData[nameIndex] = [];
                     }
-                    debugger
                     resultData[nameIndex].push(tempData);
                 }
             }
