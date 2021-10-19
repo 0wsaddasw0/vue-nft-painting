@@ -1,7 +1,9 @@
 <template>
   <div class="content">
     <div style="width: 80%">
-      <div style="height: 6%"></div>
+      <div style="height: 6%">
+        
+      </div>
       <div>
         <div class="title">现在能做什么?</div>
         <div  class="textContent">
