@@ -10,17 +10,17 @@ module.exports = {
     filename: 'main.js'
   },
   mode: 'development',
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    proxy: {
-      '/backend': {
-        target: "http://localhost:8000"
-      },
-      '/images': {
-        target: "http://localhost:8000"
-      },
-    }
-  },
+  // devServer: {
+  //   contentBase: path.resolve(__dirname, 'dist'),
+  //   proxy: {
+  //     '/backend': {
+  //       target: "http://localhost:8000"
+  //     },
+  //     '/images': {
+  //       target: "http://localhost:8000"
+  //     },
+  //   }
+  // },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({

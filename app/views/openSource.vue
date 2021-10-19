@@ -1,5 +1,4 @@
 <template>
-
   <div class="content">
   <div>
     <div style="height:10%"></div>
@@ -15,7 +14,7 @@
     </el-descriptions>
     <div style="height:5%"></div>
     <el-descriptions class="sourceList" title="NFT画师助手后端" >
-      <el-descriptions-item label="作者"><el-link  type="primary" href="https://github.com/yoursistersoul">yoursistersoul</el-link>,<el-link href="https://github.com/eatmoreapple">eatmoreapple</el-link></el-descriptions-item>
+      <el-descriptions-item label="作者"><el-link  type="primary" href="https://github.com/yoursistersoul">yoursistersoul</el-link>,<el-link  type="primary" href="https://github.com/eatmoreapple">eatmoreapple</el-link></el-descriptions-item>
       <el-descriptions-item label="描述">NFT画师助手后端，完善后将开源</el-descriptions-item>
       <el-descriptions-item label="预览地址"><el-link  type="primary" >www.uonus.net</el-link></el-descriptions-item>
       <el-descriptions-item label="开源地址">即将开源</el-descriptions-item>
