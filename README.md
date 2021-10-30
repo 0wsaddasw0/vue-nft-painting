@@ -24,10 +24,6 @@ www.uonus.net
 
 https://www.bilibili.com/video/BV1gv411G7FG
 
-### 做成了Vue插件，可以引用
-
-https://github.com/0wsaddasw0/vue-nft-painting
-
 ## English
 
 ### Introduction
