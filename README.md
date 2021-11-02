@@ -8,6 +8,14 @@
 
 前后端均已开源,前端在app文件夹下，后端在server文件夹下。
 
+### 工具网站地址
+
+www.uonus.net
+
+### 视频教程
+
+https://www.bilibili.com/video/BV1gv411G7FG
+
 ### 使用
 
 ```javascript
@@ -80,6 +88,15 @@ export default {
 ### Introduction
 
 The vue-nft-painting is a tool to help painters create NFT works
+
+### Website address
+
+www.uonus.net
+
+### Video tutorial
+
+https://www.bilibili.com/video/BV1gv411G7FG
+
 
 ### Use
 
