@@ -2,7 +2,6 @@ const path = require('path');
 const resolve = dir => path.resolve(__dirname, dir);
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: './app/main.js',
   output: {
@@ -10,26 +9,10 @@ module.exports = {
     filename: 'main.js'
   },
   mode: 'development',
-  // devServer: {
-  //   contentBase: path.resolve(__dirname, 'dist'),
-  //   proxy: {
-  //     '/backend': {
-  //       target: "http://localhost:8000"
-  //     },
-  //     '/images': {
-  //       target: "http://localhost:8000"
-  //     },
-  //   }
-  // },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: 'app/index.html',
-    }),
-    new CopyPlugin({
-      patterns: [
-        { from: path.resolve(__dirname, 'app/images'), to: path.resolve(__dirname, 'dist') }
-      ]
     })
   ],
   resolve: {
@@ -37,10 +20,9 @@ module.exports = {
     alias: {
       '@': resolve('app/src'),
       '@view': resolve('app/views'),
-      '@cmp': resolve('app/compents'),
-      '@util': resolve('app/util'),
       '@style': resolve('app/style'),
       '@img': resolve('app/images')
+
     }
   },
   module: {

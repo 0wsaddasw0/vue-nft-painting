@@ -2,31 +2,26 @@
 
 var path = require('path');
 const resolve = dir => path.resolve(__dirname, dir);
-var htmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');//注意
 module.exports = {
-    entry: './app/main.js', // 项目入口文件
+    entry: './app/plugin.js', // 项目入口文件
     output: { // 配置输出选项
-        path: path.resolve(__dirname, 'dist'), // 配置输出的路径
-        filename: 'bundle'+Date.parse(new Date())+'.js' // 配置输出的文件名
+        path: path.resolve(__dirname, ''), // 配置输出的路径
+        filename: 'index.js', // 配置输出的文件名
+        library: 'nftpainting', // 指定的就是你使用require时的模块名
+        libraryTarget: 'umd', // libraryTarget会生成不同umd的代码,可以只是commonjs标准的，也可以是指amd标准的，也可以只是通过script标签引入的
+        umdNamedDefine: true // 会对 UMD 的构建过程中的 AMD 模块进行命名。否则就使用匿名的 define
     },
     resolve: {
         // 设置别名
         alias: {
             '@': resolve('app/src'),
             '@view': resolve('app/views'),
-            '@cmp': resolve('app/compents'),
-            '@util': resolve('app/util'),
             '@style': resolve('app/style'),
-            '@img': resolve('app/images')
         }
     },
-    plugins: [ // 添加plugins节点配置插件
-        new htmlWebpackPlugin({
-            template: './app/index.html',//模板路径
-            filename: './index.html'//自动生成的HTML文件的名称
-        }),
-        new VueLoaderPlugin()//注意
+    plugins: [ 
+        new VueLoaderPlugin()
     ],
     module: {
         rules: [
@@ -74,5 +69,5 @@ module.exports = {
             }
         ]
     },
-    mode: "development"
+    mode: "production"
 }
