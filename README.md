@@ -127,9 +127,7 @@ node server.js
 
 ```javascript
 npm i vue-nft-painting
-```
 
-```javascript
 <template>
   <div>
     <nft-painting v-bind:painting_settings="painting_settings"></nft-painting>
