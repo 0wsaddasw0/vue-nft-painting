@@ -91,7 +91,7 @@ The vue-nft-painting is a tool to help painters create NFT works
 
 ### Website address
 
-www.uonus.net(A fee will be charged to account for server consumption and incentives for subsequent open source authors.)
+www.uonus.net (A fee will be charged to account for server consumption and incentives for subsequent open source authors.)
 
 ### Video tutorial
 
