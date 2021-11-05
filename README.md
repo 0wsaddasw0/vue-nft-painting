@@ -98,7 +98,7 @@ www.uonus.net(A fee will be charged to account for server consumption and incent
 https://www.bilibili.com/video/BV1gv411G7FG
 
 
-### Use
+### Usage
 
 ```javascript
 npm i vue-nft-painting
