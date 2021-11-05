@@ -17,7 +17,7 @@ www.uonus.net
 
 https://www.bilibili.com/video/BV1gv411G7FG
 
-### 使用
+### 在自己的项目中使用
 
 ```javascript
 npm i vue-nft-painting
