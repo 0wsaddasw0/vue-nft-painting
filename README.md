@@ -23,7 +23,7 @@ npm run dev
 cd server
 npm i
 node server.js
-```javascript
+```
 
 ### 视频教程
 
@@ -33,7 +33,7 @@ https://www.bilibili.com/video/BV1gv411G7FG
 
 ```javascript
 npm i vue-nft-painting
-```javascript
+
 <template>
   <div>
     <nft-painting v-bind:painting_settings="painting_settings"></nft-painting>
