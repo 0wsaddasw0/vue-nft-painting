@@ -13,6 +13,19 @@ NFT画师助手像素图双层画板Vue插件，喜欢的话给个Star
 www.uonus.net 
 （考虑到服务器消耗和对后面其他开源作者的激励，会收取一定的费用。如果仅仅是使用画板合成，可以考虑使用开源代码自己本机运行。）
 
+### 本机运行
+```javascript
+//客户端
+npm i 
+npm run dev
+
+//服务端
+cd server
+npm i
+node server.js
+```
+```javascript
+
 ### 视频教程
 
 https://www.bilibili.com/video/BV1gv411G7FG
@@ -99,6 +112,18 @@ www.uonus.net
 
 https://www.bilibili.com/video/BV1gv411G7FG
 
+### Run locally
+```javascript
+//client
+npm i 
+npm run dev
+
+//server
+cd server
+npm i
+node server.js
+```
+```javascript
 
 ### Usage
 
