@@ -8,10 +8,6 @@ NFT画师助手像素图双层画板Vue插件，喜欢的话给个Star
 
 前后端均已开源,前端在app文件夹下，后端在server文件夹下。
 
-### 工具网站地址
-
-www.uonus.net 
-（考虑到服务器消耗和对后面其他开源作者的激励，会收取一定的费用。如果仅仅是使用画板合成，可以考虑使用开源代码自己本机运行。）
 
 ### 本机运行
 ```javascript
@@ -101,10 +97,6 @@ export default {
 
 The vue-nft-painting is a tool to help painters create NFT works
 
-### Website address
-
-www.uonus.net 
-(A fee will be charged to account for server consumption and incentives for subsequent open source authors. If you are only using sketchpad composition, consider using open source code to run it natively.)
 
 ### Video tutorial
 
